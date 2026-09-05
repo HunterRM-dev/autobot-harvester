@@ -5,10 +5,10 @@ import sys
 # =====================================================================
 # KONFIGURASI BOT (Hardcoded dengan URL World Chain kau)
 # =====================================================================
-ALCHEMY_URL = "https://worldchain-mainnet.g.alchemy.com/v2/alch_vGDYfC7HldKkWt8hygzUU"
+ALCHEMY_URL = "https://dogecoin-mainnet.g.alchemy.com/v2/alch_vGDYfC7HldKkWt8hygzUU"
 
 # Ini adalah address 'Burner' (alamat kosong) untuk kita test sambungan
-WALLET_TO_CHECK = "0x0000000000000000000000000000000000000001"
+WALLET_TO_CHECK = "DJ4k65Yb5ZaN4WBvMrYnNGvJMQugi6CPsi"
 
 def check_network():
     print("\n--- BOT SEDANG BEKERJA ---")
