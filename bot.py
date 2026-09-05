@@ -3,23 +3,23 @@ import time
 import sys
 
 # =====================================================================
-# KONFIGURASI BOT (Dogecoin Mainnet)
+# KONFIGURASI BOT (World Chain Mainnet)
 # =====================================================================
-ALCHEMY_URL = "https://dogecoin-mainnet.g.alchemy.com/v2/alch_vGDYfC7HldKkWt8hygzUU"
+ALCHEMY_URL = "https://worldchain-mainnet.g.alchemy.com/v2/alch_vGDYfC7HldKkWt8hygzUU"
 
-# Address Dogecoin untuk test (Address ini adalah address Burner/Donation)
-WALLET_TO_CHECK = "DJ4k65Yb5ZaN4WBvMrYnNGvJMQugi6CPsi"
+# Ini adalah address 'Burner' (alamat kosong) untuk kita test sambungan
+WALLET_TO_CHECK = "0x0000000000000000000000000000000000000001"
 
 def check_network():
     print("\n--- BOT SEDANG BEKERJA ---")
-    print(f"Menghubungi Dogecoin Network...")
+    print("Menghubungi World Chain melalui Alchemy...")
     
-    # Dogecoin guna arahan "getreceivedbyaddress" untuk check baki
+    # Arahan (JSON-RPC) standard Ethereum untuk semak baki
     payload = {
         "jsonrpc": "2.0",
         "id": 1,
-        "method": "getreceivedbyaddress",
-        "params": [WALLET_TO_CHECK]
+        "method": "eth_getBalance",
+        "params": [WALLET_TO_CHECK, "latest"]
     }
     
     headers = {"Content-Type": "application/json"}
@@ -36,16 +36,16 @@ def check_network():
                 print(f"❌ ERROR DARI ALCHEMY: {data['error']['message']}")
                 return False
             
-            # Kalau berjaya, kira baki (Dogecoin biasanya jadi nombor biasa)
-            balance_doge = float(data.get('result', 0.0))
+            # Kalau berjaya, kira baki
+            balance_wei = int(data['result'], 16)
+            balance_eth = balance_wei / 10**18
             
-            print("✅ STATUS: Sambungan Berjaya!")
-            print(f"💰 Baki Wallet Test: {balance_doge} DOGE")
+            print("✅ STATUS: Sambungan World Chain Berjaya!")
+            print(f"💰 Baki Wallet Test: {balance_eth:.8f} ETH")
             return True
             
         else:
             print(f"❌ ERROR SERVER: Status Code {response.status_code}")
-            print(response.text) # Print error sebenar dari server
             return False
             
     except Exception as e:
@@ -56,7 +56,8 @@ def check_network():
 # ENGINE UTAMA (Loop Automatik)
 # =====================================================================
 if __name__ == "__main__":
-    print("🤖 Autobot Harvester (Dogecoin) Telah Diaktifkan!")
+    print("🤖 Autobot Harvester (World Chain) Telah Diaktifkan!")
+    print("Bot akan semak setiap 15 saat.")
     
     cycle = 1
     while True:
